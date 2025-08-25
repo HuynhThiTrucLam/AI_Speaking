@@ -18,15 +18,60 @@
     },
     "/audio": {
       "post": {
-        "summary": "Audio endpoint returning Hello",
+        "summary": "Upload and convert audio, returns Cloudinary URL",
         "tags": ["Audio"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Audio file to upload"
+                  },
+                  "typeWantToConvert": {
+                    "type": "string",
+                    "description": "Desired output format (e.g., mp3, wav)",
+                    "example": "mp3"
+                  },
+                  "outputPath": {
+                    "type": "string",
+                    "description": "Desired output filename (optional; extension inferred)",
+                    "example": "myfile"
+                  },
+                  "targetSr": {
+                    "type": "integer",
+                    "description": "Target sample rate (Hz)",
+                    "example": 16000
+                  },
+                  "folder": {
+                    "type": "string",
+                    "description": "Cloudinary folder to upload into",
+                    "example": "AISpeaker"
+                  }
+                },
+                "required": ["file"]
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Upload successful",
             "content": {
-              "text/plain": {
-                "schema": { "type": "string" },
-                "example": "Hello"
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "url": { "type": "string", "format": "uri" }
+                  }
+                },
+                "example": {
+                  "url": "https://res.cloudinary.com/demo/video/upload/v1234/audio/converted.wav"
+                }
               }
             }
           }
