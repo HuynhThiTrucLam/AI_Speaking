@@ -1,0 +1,37 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "AI Speaking Backend",
+    "version": "1.0.0"
+  },
+  "tags": [{ "name": "Audio", "description": "Audio related endpoints" }],
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "AI Speaking Backend",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/audio": {
+      "post": {
+        "summary": "Audio endpoint returning Hello",
+        "tags": ["Audio"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": { "type": "string" },
+                "example": "Hello"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

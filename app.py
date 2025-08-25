@@ -1,6 +1,26 @@
 from flask import Flask, request, jsonify
+from flask_swagger_ui import get_swaggerui_blueprint
+from dotenv import load_dotenv
+import os
+load_dotenv()
 
 app = Flask(__name__)
+
+# Register blueprints
+from routes.audio import audio_bp
+
+# Swagger setup
+SWAGGER_URL = os.getenv('SWAGGER_URL', '/docs')
+API_URL = os.getenv('API_URL', '/static/swagger.json')
+swaggerui_blueprint = get_swaggerui_blueprint(
+    SWAGGER_URL,
+    API_URL,
+    config={'app_name': os.getenv('APP_NAME')}
+)
+app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
+app.register_blueprint(audio_bp)
+
+
 
 @app.route("/")
 def home():
